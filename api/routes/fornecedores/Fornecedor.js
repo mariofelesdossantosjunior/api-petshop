@@ -31,6 +31,36 @@ class Fornecedor {
     this.dataAtualizacao = result.dataAtualizacao;
     this.versao = result.versao;
   }
+
+  async findById() {
+    const result = await dao.findById(this.id);
+    this.id = result.id;
+    this.empresa = result.empresa;
+    this.email = result.email;
+    this.categoria = result.categoria;
+    this.dataCriacao = result.dataCriacao;
+    this.dataAtualizacao = result.dataAtualizacao;
+    this.versao = result.versao;
+  }
+
+  async update() {
+    await dao.findById(this.id);
+    const inputs = ["empresa", "email", "categoria"];
+    const data = {};
+
+    inputs.forEach((input) => {
+      const value = this[input];
+      if (typeof value === "string" && value.length > 0) {
+        data[input] = value;
+      }
+    });
+
+    if (Object.keys(data).length === 0) {
+      throw new Error("Não foram fornecidos dados para atualizar");
+    }
+
+    await dao.update(this.id, data);
+  }
 }
 
 module.exports = Fornecedor;
