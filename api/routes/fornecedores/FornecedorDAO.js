@@ -4,4 +4,8 @@ module.exports = {
   findAll() {
     return dao.findAll();
   },
+
+  insert(fornecedor) {
+    return dao.create(fornecedor);
+  },
 };
