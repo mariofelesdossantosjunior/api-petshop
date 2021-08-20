@@ -16,10 +16,18 @@ router.get("/:id", async (request, response) => {
 });
 
 router.post("/", async (request, response) => {
-  const values = request.body;
-  const fornecedor = new Fornecedor(values);
-  await fornecedor.create();
-  response.json(fornecedor);
+  try {
+    const values = request.body;
+    const fornecedor = new Fornecedor(values);
+    await fornecedor.create();
+    response.json(fornecedor);
+  } catch (error) {
+    response.send(
+      JSON.stringify({
+        mensagem: error.message,
+      })
+    );
+  }
 });
 
 router.put("/:id", async (request, response) => {

@@ -20,6 +20,7 @@ class Fornecedor {
   }
 
   async create() {
+    this.validate();
     const result = await dao.insert({
       empresa: this.empresa,
       email: this.email,
@@ -64,6 +65,18 @@ class Fornecedor {
 
   async delete() {
     await dao.delete(this.id);
+  }
+
+  validate() {
+    const inputs = ["empresa", "email", "categoria"];
+
+    inputs.forEach((item) => {
+      const value = this[item];
+
+      if (typeof value !== "string" || value.length === 0) {
+        throw new Error(`O campo ${item} está inválido`);
+      }
+    });
   }
 }
 
