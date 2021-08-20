@@ -20,4 +20,12 @@ module.exports = {
       },
     });
   },
+
+  delete(id) {
+    return dao.destroy({
+      where: {
+        id: id,
+      },
+    });
+  },
 };

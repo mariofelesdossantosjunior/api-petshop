@@ -61,6 +61,10 @@ class Fornecedor {
 
     await dao.update(this.id, data);
   }
+
+  async delete() {
+    await dao.delete(this.id);
+  }
 }
 
 module.exports = Fornecedor;
