@@ -9,8 +9,12 @@ module.exports = {
     return dao.create(fornecedor);
   },
 
-  findById(id) {
-    return dao.findByPk(id);
+  async findById(id) {
+    const find = await dao.findByPk(id);
+    if (!find) {
+      throw new Error("Fornecedor não encontrado");
+    }
+    return find;
   },
 
   update(id, values) {
