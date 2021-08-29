@@ -3,6 +3,7 @@ const config = require("config");
 const router = require("./routes/fornecedores/index");
 const NotFound = require("./error/NotFound");
 const InvalidInput = require("./error/InvalidInput");
+const DataNotFound = require("./error/DataNotFound");
 
 const app = express();
 app.use(express.json());
@@ -18,7 +19,7 @@ app.use((error, request, response, next) => {
     status = 404;
   }
 
-  if (error instanceof InvalidInput) {
+  if (error instanceof InvalidInput || error instanceof DataNotFound) {
     status = 400;
   }
 

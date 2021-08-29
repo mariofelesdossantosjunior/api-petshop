@@ -1,6 +1,6 @@
 const dao = require("./FornecedorDAO");
-const invalidInput = require("../../error/InvalidInput");
 const InvalidInput = require("../../error/InvalidInput");
+const DataNotFound = require("../../error/DataNotFound");
 
 class Fornecedor {
   constructor({
@@ -59,7 +59,7 @@ class Fornecedor {
     });
 
     if (Object.keys(data).length === 0) {
-      throw new Error("Não foram fornecidos dados para atualizar");
+      throw new DataNotFound();
     }
 
     await dao.update(this.id, data);
