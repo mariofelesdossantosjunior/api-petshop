@@ -1,4 +1,6 @@
 const dao = require("./TableModelFornecedor");
+const notFound = require("../../error/NotFound");
+const NotFound = require("../../error/NotFound");
 
 module.exports = {
   findAll() {
@@ -12,7 +14,7 @@ module.exports = {
   async findById(id) {
     const find = await dao.findByPk(id);
     if (!find) {
-      throw new Error("Fornecedor não encontrado");
+      throw new NotFound();
     }
     return find;
   },

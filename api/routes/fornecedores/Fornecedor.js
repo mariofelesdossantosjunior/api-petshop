@@ -1,4 +1,6 @@
 const dao = require("./FornecedorDAO");
+const invalidInput = require("../../error/InvalidInput");
+const InvalidInput = require("../../error/InvalidInput");
 
 class Fornecedor {
   constructor({
@@ -74,7 +76,7 @@ class Fornecedor {
       const value = this[item];
 
       if (typeof value !== "string" || value.length === 0) {
-        throw new Error(`O campo ${item} está inválido`);
+        throw new InvalidInput(item);
       }
     });
   }
