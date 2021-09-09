@@ -4,7 +4,7 @@ const NotFound = require("../../error/NotFound");
 
 module.exports = {
   findAll() {
-    return dao.findAll();
+    return dao.findAll({ raw: true });
   },
 
   insert(fornecedor) {
