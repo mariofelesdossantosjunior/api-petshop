@@ -6,6 +6,7 @@ const InvalidInput = require("./error/InvalidInput");
 const DataNotFound = require("./error/DataNotFound");
 const ValueNotSerialize = require("./error/ValueNotSerialize");
 const formatsAccepts = require("./Serializer").formatsAccepts;
+const SerializeError = require("./Serializer").SerializeError;
 
 const app = express();
 app.use(express.json());
@@ -44,8 +45,10 @@ app.use((error, request, response, next) => {
     status = 406;
   }
 
+  const serialize = new SerializeError(response.getHeader("Content-Type"));
+
   response.status(status).send(
-    JSON.stringify({
+    serialize.serialize({
       mensagem: error.message,
       id: error.id,
     })

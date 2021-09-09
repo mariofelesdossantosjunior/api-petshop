@@ -25,7 +25,8 @@ router.get("/:id", async (request, response, next) => {
     response.status(200);
 
     const serializer = new SerializerFornecedor(
-      response.getHeader("Content-Type")
+      response.getHeader("Content-Type"),
+      ["email", "dataCriacao", "dataAtualizacao", "versao"]
     );
 
     response.send(serializer.serialize(fornecedor));

@@ -36,15 +36,24 @@ class Serializer {
 }
 
 class SerializerFornecedor extends Serializer {
-  constructor(contentType) {
+  constructor(contentType, extras) {
     super();
     this.contentType = contentType;
-    this.publicInput = ["id", "empresa", "categoria"];
+    this.publicInput = ["id", "empresa", "categoria"].concat(extras || []);
+  }
+}
+
+class SerializeError extends Serializer {
+  constructor(contentType, extras) {
+    super();
+    this.contentType = contentType;
+    this.publicInput = ["id", "mensagem"].concat(extras || []);
   }
 }
 
 module.exports = {
   Serializer: Serializer,
   SerializerFornecedor: SerializerFornecedor,
+  SerializeError: SerializeError,
   formatsAccepts: ["application/json"],
 };
