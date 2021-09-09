@@ -6,14 +6,22 @@ class Serializer {
   }
 
   serialize(data) {
-    if (this.contentType === "json/application") {
+    if (this.contentType === "application/json") {
       return this.json(data);
     }
-    throw ValueNotSerialize(this.contentType);
+    throw new ValueNotSerialize(this.contentType);
+  }
+}
+
+class SerializerFornecedor extends Serializer {
+  constructor(contentType) {
+    super();
+    this.contentType = contentType;
   }
 }
 
 module.exports = {
   Serializer: Serializer,
+  SerializerFornecedor: SerializerFornecedor,
   formatsAccepts: ["application/json"],
 };
