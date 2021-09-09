@@ -1,14 +1,37 @@
 const ValueNotSerialize = require("./error/ValueNotSerialize");
+const jsonToXml = require("jsontoxml");
 
 class Serializer {
   json(data) {
     return JSON.stringify(data);
   }
 
-  serialize(data) {
-    if (this.contentType === "application/json") {
-      return this.json(this.filter(data));
+  xml(data) {
+    let tag = this.tagSingular;
+
+    if (Array.isArray(data)) {
+      tag = this.tagPlural;
+      data = data.map((item) => {
+        return {
+          [this.tagSingular]: item,
+        };
+      });
     }
+
+    return jsonToXml({ [tag]: data });
+  }
+
+  serialize(data) {
+    data = this.filter(data);
+
+    if (this.contentType === "application/json") {
+      return this.json(data);
+    }
+
+    if (this.contentType == "application/xml") {
+      return this.xml(data);
+    }
+
     throw new ValueNotSerialize(this.contentType);
   }
 
@@ -40,6 +63,8 @@ class SerializerFornecedor extends Serializer {
     super();
     this.contentType = contentType;
     this.publicInput = ["id", "empresa", "categoria"].concat(extras || []);
+    this.tagSingular = "fornecedor";
+    this.tagPlural = "fornecedores";
   }
 }
 
@@ -48,6 +73,8 @@ class SerializeError extends Serializer {
     super();
     this.contentType = contentType;
     this.publicInput = ["id", "mensagem"].concat(extras || []);
+    this.tagSingular = "error";
+    this.tagPlural = "erros";
   }
 }
 
@@ -55,5 +82,5 @@ module.exports = {
   Serializer: Serializer,
   SerializerFornecedor: SerializerFornecedor,
   SerializeError: SerializeError,
-  formatsAccepts: ["application/json"],
+  formatsAccepts: ["application/json", "application/xml"],
 };

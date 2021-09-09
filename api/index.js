@@ -10,6 +10,7 @@ const SerializeError = require("./Serializer").SerializeError;
 
 const app = express();
 app.use(express.json());
+
 app.use((req, res, next) => {
   let format = req.header("Accept");
 
